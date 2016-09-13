@@ -16,8 +16,8 @@ function dateDirective () {
 }
 
 function link (scope, element, attrs, ctrl) {
-  const SEPARATOR = '/'
-  const MM_DD_YYYY = /^\D*(\d{1,4})(\D+)?(\d{1,2})?(\D+)?(\d{1,4})?/
+  var SEPARATOR = '/'
+  var MM_DD_YYYY = /^\D*(\d{1,4})(\D+)?(\d{1,2})?(\D+)?(\d{1,4})?/
   var dateMask = new StringMask('00/00/0000')
 
   function removeNonDigits (value) {
@@ -38,15 +38,15 @@ function link (scope, element, attrs, ctrl) {
     return applyDateMask(value || '')
   }
 
-  const parseDate = function (value) {
-    const parts = value.match(MM_DD_YYYY)
+  var parseDate = function (value) {
+    var parts = value.match(MM_DD_YYYY)
     if (!parts) return []
 
-    let month = parts[1] || ''
-    let separator1 = parts[2] || ''
-    let date = parts [3] || ''
-    let separator2 = parts[4] || ''
-    let year = parts[5] || ''
+    var month = parts[1] || ''
+    var separator1 = parts[2] || ''
+    var date = parts [3] || ''
+    var separator2 = parts[4] || ''
+    var year = parts[5] || ''
 
     if (year.length > 0) {
       separator2 = SEPARATOR
@@ -74,8 +74,10 @@ function link (scope, element, attrs, ctrl) {
       date = 12
     }
 
-    if (year && parseInt(year, 10) > 2016) {
-      year = 2016
+    var currentYear = (new Date()).getFullYear()
+
+    if (year && parseInt(year, 10) > currentYear) {
+      year = currentYear
     }
 
     return [
@@ -87,27 +89,25 @@ function link (scope, element, attrs, ctrl) {
     ].filter(Boolean)
   }
 
-  const parser = function (value) {
+  var parser = function (value) {
     if (ctrl.$isEmpty(value)) {
       return value
     }
 
-    const newValue = removeNonDigits(parseDate(value).join(''))
-    const formattedValue = formatter(newValue)
+    var newValue = removeNonDigits(parseDate(value).join(''))
+    var formattedValue = formatter(newValue)
 
     if (ctrl.$viewValue !== newValue) {
       ctrl.$setViewValue(newValue)
       ctrl.$render()
     }
 
-    console.log(newValue, formattedValue)
-
     return removeNonDigits(newValue)
   }
 
   element.on('keydown', function (ev) {
     if (ev.keyCode === 8) {
-      const parts = parseDate(ev.target.value)
+      var parts = parseDate(ev.target.value)
 
       if (parts.length === 2) {
         ctrl.$setViewValue('')
