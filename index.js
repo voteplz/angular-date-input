@@ -69,7 +69,7 @@ function link (scope, element, attrs, ctrl) {
     }
 
     if (month && parseInt(month, 10) > 12) {
-      date = 12
+      month = 12
     }
 
     var currentYear = (new Date()).getFullYear()
