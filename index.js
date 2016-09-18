@@ -33,7 +33,7 @@ function link (scope, element, attrs, ctrl) {
       return value
     }
 
-    return applyDateMask(value || '')
+    return value || ''
   }
 
   var parseDate = function (value) {
